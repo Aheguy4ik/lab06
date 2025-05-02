@@ -363,9 +363,10 @@ cmake .. && cmake --build .
 [ 90%] Building CXX object solver_application/CMakeFiles/solver.dir/equation.cpp.o
 [100%] Linking CXX executable solver
 [100%] Built target solver
-
-
 ```
+
+Проверка работы приложений:
+```sh
 
 
 
