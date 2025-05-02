@@ -1,4 +1,4 @@
-##Homework III
+###Homework III
 
 0. Подготовка репозитория:
 ```sh 
