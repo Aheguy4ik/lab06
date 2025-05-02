@@ -46,6 +46,7 @@ EOF
 mkdir build
 cd build
 cmake ..
+cd ../..
 #Вывод:
 [aheguy@aheguy-nitroan51554 build]$ cmake ..
 -- The CXX compiler identification is GNU 14.2.1
@@ -110,6 +111,7 @@ EOF
 #Собираем библиотеку:
 mkdir build && cd build
 cmake .. && cmake --build .
+cd ../..
 #Вывод:
 [aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
 -- The CXX compiler identification is GNU 14.2.1
@@ -160,6 +162,7 @@ EOF
 # Собираем приложение
 mkdir build && cd build
 cmake .. && cmake --build .
+cd ../..
 #Вывод:
 [aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
 -- The CXX compiler identification is GNU 14.2.1
@@ -183,7 +186,54 @@ cmake .. && cmake --build .
 ```
 Приложение solver:
 ```sh
+# Сначала создаем solver_lib
+cd solver_lib
 
+# CMakeLists.txt для solver_lib
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(solver_lib LANGUAGES CXX)
+
+add_library(solver_lib STATIC solver.cpp)
+target_include_directories(solver_lib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+EOF
+
+# Исходные файлы solver_lib
+cat > solver.h <<'EOF'
+#pragma once
+
+double solve(double a, double b, double c);
+EOF
+
+cat > solver.cpp <<'EOF'
+#include "solver.h"
+#include <cmath>
+
+double solve(double a, double b, double c) {
+    return (-b + sqrt(b*b - 4*a*c)) / (2*a);
+}
+EOF
+
+# Собираем библиотеку
+mkdir build && cd build
+cmake .. && cmake --build .
+cd ../..
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/solver_lib/build
+[ 50%] Building CXX object CMakeFiles/solver_lib.dir/solver.cpp.o
+[100%] Linking CXX static library libsolver_lib.a
+[100%] Built target solver_lib
 
 ```
 
