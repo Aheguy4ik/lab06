@@ -1,6 +1,6 @@
 ##Homework III
-
-0. Подготовка репозитория:
+<details>
+<summary>0. Подготовка репозитория:</summary>
 ```sh 
 git clone https://github.com/<username>/lab03.git
 cd lab03
@@ -9,7 +9,7 @@ cd lab03
 ```sh
 mkdir -p formatter_lib formatter_ex_lib solver_lib hello_world solver
 ```
-
+</details>
 Задание 1:
 ```sh
 cd formatter_lib
