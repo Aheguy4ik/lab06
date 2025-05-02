@@ -66,4 +66,90 @@ cmake --build .
 [100%] Built target formatter
 
 ```
+Задание 2:
+
+```sh
+cd ../..
+cd formatter_ex_lib
+
+#Создаем CMakeLists.txt для formatter_ex:
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(formatter_ex LANGUAGES CXX)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/formatter_lib)
+
+add_library(formatter_ex STATIC formatter_ex.cpp)
+target_include_directories(formatter_ex PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+target_link_libraries(formatter_ex PUBLIC formatter)
+EOF
+
+#Создаем исходные файлы библиотеки formatter_ex:
+cat > formatter_ex.cpp <<'EOF'
+#include "formatter_ex.h"
+#include <fstream>
+
+void print_ex(const std::string& text) {
+    std::ofstream out("log.txt");
+    out << text;
+    out.close();
+}
+EOF
+
+cat > formatter_ex.h <<'EOF'
+#pragma once
+#include <string>
+
+void print_ex(const std::string& text);
+EOF
+
+#Собираем библиотеку:
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
