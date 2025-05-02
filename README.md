@@ -1,4 +1,5 @@
 ##Homework III
+
 0. Подготовка репозитория: 
 ```sh 
 git clone https://github.com/<username>/lab03.git
