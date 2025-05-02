@@ -46,6 +46,24 @@ EOF
 mkdir build
 cd build
 cmake ..
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake ..
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/formatter_lib/build
+
 cmake --build .
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake --build .
+[ 50%] Building CXX object CMakeFiles/formatter.dir/formatter.cpp.o
+[100%] Linking CXX static library libformatter.a
+[100%] Built target formatter
+
 ```
 
