@@ -386,8 +386,10 @@ cmake .. && cmake --build .
 
 # Проверка результата (должен создать файл log.txt)
 cat log.txt
-```
+
 ![Проверка](https://github.com/Aheguy4ik/lab03/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5.png)
+```
+
 2. Запуск приложения solver
 ```sh
 # Запуск
@@ -395,8 +397,10 @@ cat log.txt
 
 # Проверка результата (вывод в консоль и в log.txt)
 cat log.txt
-```
+
 ![Проверка](https://github.com/Aheguy4ik/lab03/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B52.png)
+```
+
 
 
 
