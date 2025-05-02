@@ -1,6 +1,6 @@
 ##Homework III
 <details>
-<summary>0. Подготовка репозитория:</summary>
+<summary> 0. Подготовка репозитория: </summary>
 ```sh 
 git clone https://github.com/<username>/lab03.git
 cd lab03
