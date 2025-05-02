@@ -10,20 +10,42 @@ cd lab03
 mkdir -p formatter_lib formatter_ex_lib solver_lib hello_world solver
 ```
 
-Задание 1: Создание CMakeLists.txt для библиотеки formatter
+Задание 1:
 ```sh
 cd formatter_lib
 
-cat > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.4)
-project(formatter)
+#Создаем CMakeLists.txt для библиотеки formatter:
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(formatter LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_library(formatter STATIC \${CMAKE_CURRENT_SOURCE_DIR}/formatter.cpp)
-
-include_directories(\${CMAKE_CURRENT_SOURCE_DIR})
+add_library(formatter STATIC formatter.cpp)
+target_include_directories(formatter PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
 EOF
+
+#Создаем исходные файлы библиотеки:
+cat > formatter.cpp <<'EOF'
+#include "formatter.h"
+#include <iostream>
+
+void print(const std::string& text) {
+    std::cout << text << std::endl;
+}
+EOF
+
+cat > formatter.h <<'EOF'
+#pragma once
+#include <string>
+
+void print(const std::string& text);
+EOF
+
+#Собираем библиотеку:
+mkdir build
+cd build
+cmake ..
+cmake --build .
 ```
 
