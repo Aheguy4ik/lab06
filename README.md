@@ -127,9 +127,13 @@ cmake .. && cmake --build .
 [ 75%] Building CXX object CMakeFiles/formatter_ex.dir/formatter_ex.cpp.o
 [100%] Linking CXX static library libformatter_ex.a
 [100%] Built target formatter_ex
+```
+Задание 3:
+```sh
+cd hello_world_application
+
 
 ```
-
 
 
 
