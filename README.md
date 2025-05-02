@@ -204,6 +204,8 @@ EOF
 cat > solver.h <<'EOF'
 #pragma once
 
+/// Решает квадратное уравнение ax² + bx + c = 0
+/// Возвращает один из корней
 double solve(double a, double b, double c);
 EOF
 
@@ -258,15 +260,26 @@ cat > equation.cpp <<'EOF'
 #include "formatter_ex.h"
 #include "solver.h"
 #include <iostream>
+#include <cmath>
 
 int main() {
-    double a = 1.0, b = -3.0, c = 2.0;
-    double root = solve(a, b, c);
+    // Решаем уравнение x² - 5x + 6 = 0
+    double a = 1.0, b = -5.0, c = 6.0;
     
-    std::string result = "Root: " + std::to_string(root);
+    // Находим оба корня
+    double root1 = (-b + sqrt(b*b - 4*a*c)) / (2*a);
+    double root2 = (-b - sqrt(b*b - 4*a*c)) / (2*a);
+    
+    std::string result = "Уравнение: " + std::to_string(a) + "x² + " + 
+                        std::to_string(b) + "x + " + 
+                        std::to_string(c) + " = 0\n" +
+                        "Корни: x₁ = " + std::to_string(root1) + 
+                        ", x₂ = " + std::to_string(root2);
+    
+    // Вывод в файл и консоль
     print_ex(result);
-    
     std::cout << result << std::endl;
+    
     return 0;
 }
 EOF
@@ -366,9 +379,24 @@ cmake .. && cmake --build .
 ```
 
 Проверка работы приложений:
+1. Запуск приложения hello_world
+```sh
+# Запуск
+./hello_world_application/hello_world
+
+# Проверка результата (должен создать файл log.txt)
+cat log.txt
+```
 ![Проверка](https://github.com/Aheguy4ik/lab03/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5.png)
 
+2. Запуск приложения solver
+```sh
+# Запуск
+./solver_application/solver
 
+# Проверка результата (вывод в консоль и в log.txt)
+cat log.txt
+```
 
 
 
