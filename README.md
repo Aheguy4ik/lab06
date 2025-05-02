@@ -235,6 +235,75 @@ cd ../..
 [100%] Linking CXX static library libsolver_lib.a
 [100%] Built target solver_lib
 
+
+# Теперь создаем solver приложение
+cd solver_application
+
+# CMakeLists.txt для solver
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(solver_app)
+
+# Простые относительные пути с явным указанием бинарной директории
+add_subdirectory(../formatter_ex_lib formatter_ex_build)
+add_subdirectory(../solver_lib solver_build)
+
+add_executable(solver equation.cpp)
+target_link_libraries(solver formatter_ex solver_lib)
+EOF
+
+
+# Исходный файл приложения
+cat > equation.cpp <<'EOF'
+#include "formatter_ex.h"
+#include "solver.h"
+#include <iostream>
+
+int main() {
+    double a = 1.0, b = -3.0, c = 2.0;
+    double root = solve(a, b, c);
+    
+    std::string result = "Root: " + std::to_string(root);
+    print_ex(result);
+    
+    std::cout << result << std::endl;
+    return 0;
+}
+EOF
+
+# Собираем приложение
+mkdir build && cd build
+cmake .. && cmake --build .
+cd ../..
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
+-- The C compiler identification is GNU 14.2.1
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/solver_application/build
+[ 12%] Building CXX object solver_build/CMakeFiles/solver_lib.dir/solver.cpp.o
+[ 25%] Linking CXX static library libsolver_lib.a
+[ 25%] Built target solver_lib
+[ 37%] Building CXX object formatter_ex_build/formatter/CMakeFiles/formatter.dir/formatter.cpp.o
+[ 50%] Linking CXX static library libformatter.a
+[ 50%] Built target formatter
+[ 62%] Building CXX object formatter_ex_build/CMakeFiles/formatter_ex.dir/formatter_ex.cpp.o
+[ 75%] Linking CXX static library libformatter_ex.a
+[ 75%] Built target formatter_ex
+[ 87%] Building CXX object CMakeFiles/solver.dir/equation.cpp.o
+[100%] Linking CXX executable solver
+[100%] Built target solver
 ```
 
 
