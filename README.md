@@ -77,11 +77,13 @@ cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
 project(formatter_ex LANGUAGES CXX)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/formatter_lib)
+# Используем ../formatter_lib для относительного пути
+add_subdirectory(../formatter_lib ${CMAKE_CURRENT_BINARY_DIR}/formatter)
 
 add_library(formatter_ex STATIC formatter_ex.cpp)
 target_include_directories(formatter_ex PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    ${CMAKE_CURRENT_SOURCE_DIR}/../formatter_lib
 )
 target_link_libraries(formatter_ex PUBLIC formatter)
 EOF
@@ -106,6 +108,25 @@ void print_ex(const std::string& text);
 EOF
 
 #Собираем библиотеку:
+mkdir build && cd build
+cmake .. && cmake --build .
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/formatter_ex_lib/build
+[ 25%] Building CXX object formatter/CMakeFiles/formatter.dir/formatter.cpp.o
+[ 50%] Linking CXX static library libformatter.a
+[ 50%] Built target formatter
+[ 75%] Building CXX object CMakeFiles/formatter_ex.dir/formatter_ex.cpp.o
+[100%] Linking CXX static library libformatter_ex.a
+[100%] Built target formatter_ex
 
 ```
 
