@@ -78,15 +78,15 @@ cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
 project(formatter_ex LANGUAGES CXX)
 
-# Используем ../formatter_lib для относительного пути
-add_subdirectory(../formatter_lib ${CMAKE_CURRENT_BINARY_DIR}/formatter)
-
-add_library(formatter_ex STATIC formatter_ex.cpp)
-target_include_directories(formatter_ex PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    ${CMAKE_CURRENT_SOURCE_DIR}/../formatter_lib
-)
-target_link_libraries(formatter_ex PUBLIC formatter)
+# Проверяем, не был ли target уже добавлен
+if(NOT TARGET formatter_ex)
+    add_library(formatter_ex STATIC formatter_ex.cpp)
+    target_include_directories(formatter_ex PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        ${CMAKE_SOURCE_DIR}/formatter_lib
+    )
+    target_link_libraries(formatter_ex PUBLIC formatter)
+endif()
 EOF
 
 #Создаем исходные файлы библиотеки formatter_ex:
@@ -244,12 +244,12 @@ cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
 project(solver_app)
 
-# Простые относительные пути с явным указанием бинарной директории
-add_subdirectory(../formatter_ex_lib formatter_ex_build)
-add_subdirectory(../solver_lib solver_build)
-
 add_executable(solver equation.cpp)
-target_link_libraries(solver formatter_ex solver_lib)
+target_include_directories(solver PRIVATE
+    ${CMAKE_SOURCE_DIR}/formatter_ex_lib
+    ${CMAKE_SOURCE_DIR}/solver_lib
+)
+target_link_libraries(solver PRIVATE formatter_ex solver_lib)
 EOF
 
 
@@ -305,24 +305,33 @@ cd ../..
 [100%] Linking CXX executable solver
 [100%] Built target solver
 ```
+Финальная сборка всего проекта
+```sh
+# Создаем корневой CMakeLists.txt
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(lab03 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Явно включаем необходимые политики
+cmake_policy(SET CMP0002 NEW)
+cmake_policy(SET CMP0079 NEW)
+
+# Включаем подпроекты в правильном порядке
+add_subdirectory(formatter_lib)
+add_subdirectory(formatter_ex_lib)
+add_subdirectory(solver_lib)
+add_subdirectory(hello_world_application)
+add_subdirectory(solver_application)
+EOF
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Собираем весь проект
+mkdir build && cd build
+cmake .. && cmake --build .
+```
 
 
 
