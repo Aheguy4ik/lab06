@@ -1,10 +1,6 @@
 #include "formatter.h"
+#include <iostream>
 
-std::string formatter(const std::string& message)
-{
-    std::string res;
-    res += "-------------------------\n";
-    res += message + "\n";
-    res += "-------------------------\n";
-    return res;
+void print(const std::string& text) {
+    std::cout << text << std::endl;
 }

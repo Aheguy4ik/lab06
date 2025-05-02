@@ -1,8 +1,8 @@
 #include "formatter_ex.h"
+#include <fstream>
 
-#include "formatter.h"
-
-std::ostream& formatter(std::ostream& out, const std::string& message)
-{
-    return out << formatter(message);
+void print_ex(const std::string& text) {
+    std::ofstream out("log.txt");
+    out << text;
+    out.close();
 }

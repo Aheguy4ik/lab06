@@ -1,3 +1,5 @@
 #pragma once
 
-void solve(float a, float b, float c, float& x1, float& x2);
+/// Решает квадратное уравнение ax² + bx + c = 0
+/// Возвращает один из корней
+double solve(double a, double b, double c);
