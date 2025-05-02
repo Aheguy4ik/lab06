@@ -132,6 +132,58 @@ cmake .. && cmake --build .
 ```sh
 cd hello_world_application
 
+# Создаем CMakeLists.txt
+cat > CMakeLists.txt <<'EOF'
+cmake_minimum_required(VERSION 3.10)
+project(hello_world LANGUAGES CXX)
+
+# Используем явный относительный путь
+add_subdirectory(../formatter_ex_lib ${CMAKE_CURRENT_BINARY_DIR}/formatter_ex)
+
+add_executable(hello_world hello_world.cpp)
+target_include_directories(hello_world PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../formatter_ex_lib
+)
+target_link_libraries(hello_world PRIVATE formatter_ex)
+EOF
+
+# Создаем исходный файл
+cat > hello_world.cpp <<'EOF'
+#include "formatter_ex.h"
+
+int main() {
+    print_ex("Hello, World!");
+    return 0;
+}
+EOF
+
+# Собираем приложение
+mkdir build && cd build
+cmake .. && cmake --build .
+#Вывод:
+[aheguy@aheguy-nitroan51554 build]$ cmake .. && cmake --build .
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/hello_world_application/build
+[ 16%] Building CXX object formatter_ex/formatter/CMakeFiles/formatter.dir/formatter.cpp.o
+[ 33%] Linking CXX static library libformatter.a
+[ 33%] Built target formatter
+[ 50%] Building CXX object formatter_ex/CMakeFiles/formatter_ex.dir/formatter_ex.cpp.o
+[ 66%] Linking CXX static library libformatter_ex.a
+[ 66%] Built target formatter_ex
+[ 83%] Building CXX object CMakeFiles/hello_world.dir/hello_world.cpp.o
+[100%] Linking CXX executable hello_world
+[100%] Built target hello_world
+```
+Приложение solver:
+```sh
+
 
 ```
 
