@@ -376,6 +376,22 @@ cmake .. && cmake --build .
 [100%] Linking CXX executable solver
 [100%] Built target solver
 ```
+Исключим build с помощью .gitignore:
+```sh
+nano .gitignore
+
+#ввод в nano
+/build/
+
+#удаляем отслеживаемые файлы, так как каталог уже находится в репозитории
+git rm -r --cached build/
+
+#Зафиксируйем изменения
+git add .gitignore
+git commit -m "Исключил папку build через .gitignore"
+git push origin master
+```
+
 
 Проверка работы приложений:
 1. Запуск приложения hello_world
