@@ -30,27 +30,14 @@ jobs:
           cpack -G DEB
           cpack -G RPM
 
-      - name: Create release
+      - name: Upload assets to GitHub release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Solver Release ${{ github.ref_name }}
           body: Solver built from lab06 with DEB and RPM packages
+          files: |
+            build/*.deb
+            build/*.rpm
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_SUPER_TOKEN }}
-
-      - name: Upload DEB
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/*.deb
-          asset_name: solver_${{ github.ref_name }}.deb
-          asset_content_type: application/vnd.debian.binary-package
-
-      - name: Upload RPM
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/*.rpm
-          asset_name: solver_${{ github.ref_name }}.rpm
-          asset_content_type: application/x-rpm
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
