@@ -2,8 +2,8 @@
 
 0. Подготовка репозитория: 
 ```sh 
-git clone https://github.com/<username>/lab03.git
-cd lab03
+git clone https://github.com/<username>/lab06.git
+cd lab06
 ```
 Создаем структуру папок для проекта:
 ```sh
@@ -56,7 +56,7 @@ cd ../..
 -- Detecting CXX compile features - done
 -- Configuring done (0.4s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/formatter_lib/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/formatter_lib/build
 
 cmake --build .
 #Вывод:
@@ -121,7 +121,7 @@ cd ../..
 -- Detecting CXX compile features - done
 -- Configuring done (0.2s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/formatter_ex_lib/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/formatter_ex_lib/build
 [ 25%] Building CXX object formatter/CMakeFiles/formatter.dir/formatter.cpp.o
 [ 50%] Linking CXX static library libformatter.a
 [ 50%] Built target formatter
@@ -172,7 +172,7 @@ cd ../..
 -- Detecting CXX compile features - done
 -- Configuring done (0.2s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/hello_world_application/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/hello_world_application/build
 [ 16%] Building CXX object formatter_ex/formatter/CMakeFiles/formatter.dir/formatter.cpp.o
 [ 33%] Linking CXX static library libformatter.a
 [ 33%] Built target formatter
@@ -231,7 +231,7 @@ cd ../..
 -- Detecting CXX compile features - done
 -- Configuring done (0.2s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/solver_lib/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/solver_lib/build
 [ 50%] Building CXX object CMakeFiles/solver_lib.dir/solver.cpp.o
 [100%] Linking CXX static library libsolver_lib.a
 [100%] Built target solver_lib
@@ -303,7 +303,7 @@ cd ../..
 -- Detecting CXX compile features - done
 -- Configuring done (0.4s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/solver_application/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/solver_application/build
 [ 12%] Building CXX object solver_build/CMakeFiles/solver_lib.dir/solver.cpp.o
 [ 25%] Linking CXX static library libsolver_lib.a
 [ 25%] Built target solver_lib
@@ -322,7 +322,7 @@ cd ../..
 # Создаем корневой CMakeLists.txt
 cat > CMakeLists.txt <<'EOF'
 cmake_minimum_required(VERSION 3.10)
-project(lab03 LANGUAGES CXX)
+project(lab06 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -359,7 +359,7 @@ cmake .. && cmake --build .
 -- Detecting C compile features - done
 -- Configuring done (0.4s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab03/build
+-- Build files have been written to: /home/aheguy/Aheguy4ik/workspace/projects/lab06/build
 [ 10%] Building CXX object formatter_lib/CMakeFiles/formatter.dir/formatter.cpp.o
 [ 20%] Linking CXX static library libformatter.a
 [ 20%] Built target formatter
@@ -402,7 +402,7 @@ git push origin master
 # Проверка результата (должен создать файл log.txt)
 cat log.txt
 ```
-![Проверка](https://github.com/Aheguy4ik/lab03/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5.png)
+![Проверка](https://github.com/Aheguy4ik/lab06/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5.png)
 
 
 2. Запуск приложения solver
@@ -415,7 +415,7 @@ cat log.txt
 ```
 
 
-![Проверка](https://github.com/Aheguy4ik/lab03/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B52.png)
+![Проверка](https://github.com/Aheguy4ik/lab06/blob/master/%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B52.png)
 
 
 
