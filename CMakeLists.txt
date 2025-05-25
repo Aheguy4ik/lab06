@@ -15,7 +15,8 @@ add_subdirectory(solver_lib)
 add_subdirectory(hello_world_application)
 add_subdirectory(solver_application)
 
-include(CPackConfig.cmake)
-
-add_executable(solver main.cpp)
+# Установка бинарника solver из solver_application
 install(TARGETS solver RUNTIME DESTINATION bin)
+
+# Подключение конфигурации пакета
+include(CPackConfig.cmake)
