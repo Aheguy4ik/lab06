@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*.*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -25,7 +28,12 @@ jobs:
       - name: Install dependencies (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          choco install wix --version=3.11.2
+          choco install wix -y
+
+      - name: Install dependencies (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install cmake
 
       - name: Configure CMake
         run: cmake -S . -B build
@@ -52,16 +60,31 @@ jobs:
           cd build
           cpack -G DragNDrop
 
-      - name: Upload assets to GitHub release
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ runner.os }}-artifacts
+          path: build/*.*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: List downloaded files
+        run: ls -R artifacts
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Solver Release ${{ github.ref_name }}
           body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
-          files: |
-            build/*.deb
-            build/*.rpm
-            build/*.msi
-            build/*.dmg
+          files: artifacts/**/*.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
