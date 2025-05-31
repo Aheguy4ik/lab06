@@ -61,31 +61,79 @@ jobs:
           cd build
           cpack -G DragNDrop
 
-      - name: Upload artifacts
+      # Разбитие загрузки артефактов на отдельные шаги, чтобы снизить нагрузку памяти
+      - name: Upload Linux DEB artifacts
+        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ runner.os }}-artifacts
-          path: build/*
+          name: Linux-DEB
+          path: build/*.deb
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Upload Linux RPM artifacts
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
         with:
-          path: artifacts
+          name: Linux-RPM
+          path: build/*.rpm
 
-      - name: List downloaded files
-        run: ls -R artifacts
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload Windows MSI artifacts
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Solver Release ${{ github.ref_name }}
-          body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
-          files: artifacts/**/*.*
+          name: Windows-MSI
+          path: build/*.msi
+
+      - name: Upload macOS DMG artifacts
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: --max-old-space-size=4096
+        with:
+          name: MacOS-DMG
+          path: build/*.dmg
+
+release:
+  needs: build
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Download all Linux artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: Linux-DEB
+        path: artifacts/linux-deb
+
+    - name: Download all Linux RPM artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: Linux-RPM
+        path: artifacts/linux-rpm
+
+    - name: Download Windows artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: Windows-MSI
+        path: artifacts/windows-msi
+
+    - name: Download macOS artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: MacOS-DMG
+        path: artifacts/macos-dmg
+
+    - name: List downloaded files
+      run: ls -R artifacts
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Solver Release ${{ github.ref_name }}
+        body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
+        files: |
+          artifacts/linux-deb/*.deb
+          artifacts/linux-rpm/*.rpm
+          artifacts/windows-msi/*.msi
+          artifacts/macos-dmg/*.dmg
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
