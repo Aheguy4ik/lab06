@@ -61,7 +61,6 @@ jobs:
           cd build
           cpack -G DragNDrop
 
-      # Разбитие загрузки артефактов на отдельные шаги, чтобы снизить нагрузку памяти
       - name: Upload Linux DEB artifacts
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
@@ -85,55 +84,55 @@ jobs:
 
       - name: Upload macOS DMG artifacts
         if: matrix.os == 'macos-latest'
-        uses: actions/upload-artifact@v4
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+        uses: actions/upload-artifact@v4
         with:
           name: MacOS-DMG
           path: build/*.dmg
 
-release:
-  needs: build
-  runs-on: ubuntu-latest
+  release:
+    needs: build
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Download all Linux artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: Linux-DEB
-        path: artifacts/linux-deb
+    steps:
+      - name: Download all Linux DEB artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Linux-DEB
+          path: artifacts/linux-deb
 
-    - name: Download all Linux RPM artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: Linux-RPM
-        path: artifacts/linux-rpm
+      - name: Download all Linux RPM artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Linux-RPM
+          path: artifacts/linux-rpm
 
-    - name: Download Windows artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: Windows-MSI
-        path: artifacts/windows-msi
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Windows-MSI
+          path: artifacts/windows-msi
 
-    - name: Download macOS artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: MacOS-DMG
-        path: artifacts/macos-dmg
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: MacOS-DMG
+          path: artifacts/macos-dmg
 
-    - name: List downloaded files
-      run: ls -R artifacts
+      - name: List downloaded files
+        run: ls -R artifacts
 
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Solver Release ${{ github.ref_name }}
-        body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
-        files: |
-          artifacts/linux-deb/*.deb
-          artifacts/linux-rpm/*.rpm
-          artifacts/windows-msi/*.msi
-          artifacts/macos-dmg/*.dmg
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Solver Release ${{ github.ref_name }}
+          body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
+          files: |
+            artifacts/linux-deb/*.deb
+            artifacts/linux-rpm/*.rpm
+            artifacts/windows-msi/*.msi
+            artifacts/macos-dmg/*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
