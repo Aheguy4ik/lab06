@@ -7,37 +7,61 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y rpm dpkg cmake build-essential
 
+      - name: Install dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install wix --version=3.11.2
+
       - name: Configure CMake
-        run: cmake -S . -B build -DCPACK_GENERATOR="DEB;RPM"
+        run: cmake -S . -B build
 
       - name: Build
-        run: cmake --build build
+        run: cmake --build build --config Release
 
-      - name: Package
+      - name: Package (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: |
           cd build
           cpack -G DEB
           cpack -G RPM
+
+      - name: Package (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd build
+          cpack -G WIX
+
+      - name: Package (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd build
+          cpack -G DragNDrop
 
       - name: Upload assets to GitHub release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           name: Solver Release ${{ github.ref_name }}
-          body: Solver built from lab06 with DEB and RPM packages
+          body: Solver packaged for all platforms (DEB, RPM, MSI, DMG)
           files: |
             build/*.deb
             build/*.rpm
+            build/*.msi
+            build/*.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_NAME }}
