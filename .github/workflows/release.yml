@@ -64,4 +64,4 @@ jobs:
             build/*.msi
             build/*.dmg
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
