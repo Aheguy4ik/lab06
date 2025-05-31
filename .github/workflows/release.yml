@@ -29,6 +29,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           choco install wix -y
+          choco install cmake -y
 
       - name: Install dependencies (macOS)
         if: matrix.os == 'macos-latest'
@@ -61,10 +62,10 @@ jobs:
           cpack -G DragNDrop
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }}-artifacts
-          path: build/*.*
+          path: build/*
 
   release:
     needs: build
@@ -72,7 +73,7 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
 
